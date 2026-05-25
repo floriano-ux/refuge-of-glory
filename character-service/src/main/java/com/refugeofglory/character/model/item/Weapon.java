@@ -15,7 +15,6 @@ public class Weapon extends Item {
 
     @Override
     public void applyEffect(Character target) {
-        // Arma não aplica efeito sozinha
-        // Só tem efeito quando decorada com FireEnchantment ou BlessingEnchantment
+
     }
 }
