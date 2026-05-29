@@ -4,6 +4,7 @@ target/
 # IntelliJ
 .idea/
 *.iml
+*.xml
 
 # Spring Boot - arquivos sensíveis
 auth-service/src/main/resources/application.properties
