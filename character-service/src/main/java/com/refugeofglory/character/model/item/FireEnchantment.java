@@ -27,4 +27,8 @@ public class FireEnchantment extends ItemDecorator {
         wrappedItem.applyEffect(target);
         target.getAttributes().receiveDamage(bonusDamage);
     }
+
+    public int getBonusDamage() {
+        return bonusDamage;
+    }
 }

@@ -1,5 +1,6 @@
 package com.refugeofglory.combat.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,8 @@ public class BattleParticipantDTO {
     private int defense;
     private int speed;
     private double initiativePoints;
-    private boolean isPlayer;
-    private boolean hasFireEnchantment;
+    private Boolean player;
+    private Boolean hasFireEnchantment;
     private int fireEnchantmentBonus;
 
     public boolean isAlive() {

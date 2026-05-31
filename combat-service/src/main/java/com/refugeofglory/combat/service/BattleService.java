@@ -30,7 +30,6 @@ public class BattleService {
         player.setPlayer(true);
 
         BattleParticipantDTO enemy = createEnemy(enemyType);
-        enemy.setPlayer(false);
 
         Long battleId = battleIdCounter.getAndIncrement();
         BattleSession session = new BattleSession(
@@ -71,30 +70,54 @@ public class BattleService {
 
     private BattleParticipantDTO createEnemy(String enemyType) {
         return switch (enemyType.toUpperCase()) {
-            case "GHOUL" -> new BattleParticipantDTO(
-                    null, "Carniçal", "ENEMY",
-                    18, 18, 4, 7, 0, 6, 6.0,
-                    false, false, 0);
-            case "CRAWLING_CLAW" -> new BattleParticipantDTO(
-                    null, "Garra Rastejante", "ENEMY",
-                    8, 8, 2, 4, 0, 8, 8.0,
-                    false, false, 0);
-            case "DISPLACER_BEAST" -> new BattleParticipantDTO(
-                    null, "Pantera Deslocadora", "ENEMY",
-                    75, 75, 10, 16, 13, 12, 18.5,
-                    false, false, 0);
-            case "GOLEM" -> new BattleParticipantDTO(
-                    null, "Golem", "ENEMY",
-                    100, 100, 18, 28, 20, 4, 14.0,
-                    false, false, 0);
-            case "OWLBEAR" -> new BattleParticipantDTO(
-                    null, "Urso-Coruja", "ENEMY",
-                    110, 110, 15, 25, 13, 3, 9.5,
-                    false, false, 0);
-            case "DEMON" -> new BattleParticipantDTO(
-                    null, "Demônio", "ENEMY",
-                    150, 150, 28, 48, 10, 7, 12.0,
-                    false, false, 0);
+            case "GHOUL" -> {
+                BattleParticipantDTO e = new BattleParticipantDTO(
+                        null, "Carniçal", "ENEMY",
+                        18, 18, 4, 7, 0, 6, 6.0,
+                        false, false, 0);
+                e.setPlayer(false);
+                yield e;
+            }
+            case "CRAWLING_CLAW" -> {
+                BattleParticipantDTO e = new BattleParticipantDTO(
+                        null, "Garra Rastejante", "ENEMY",
+                        8, 8, 2, 4, 0, 8, 8.0,
+                        false, false, 0);
+                e.setPlayer(false);
+                yield e;
+            }
+            case "DISPLACER_BEAST" -> {
+                BattleParticipantDTO e = new BattleParticipantDTO(
+                        null, "Pantera Deslocadora", "ENEMY",
+                        75, 75, 10, 16, 13, 12, 18.5,
+                        false, false, 0);
+                e.setPlayer(false);
+                yield e;
+            }
+            case "GOLEM" -> {
+                BattleParticipantDTO e = new BattleParticipantDTO(
+                        null, "Golem", "ENEMY",
+                        100, 100, 18, 28, 20, 4, 14.0,
+                        false, false, 0);
+                e.setPlayer(false);
+                yield e;
+            }
+            case "OWLBEAR" -> {
+                BattleParticipantDTO e = new BattleParticipantDTO(
+                        null, "Urso-Coruja", "ENEMY",
+                        110, 110, 15, 25, 13, 3, 9.5,
+                        false, false, 0);
+                e.setPlayer(false);
+                yield e;
+            }
+            case "DEMON" -> {
+                BattleParticipantDTO e = new BattleParticipantDTO(
+                        null, "Demônio", "ENEMY",
+                        150, 150, 28, 48, 10, 7, 12.0,
+                        false, false, 0);
+                e.setPlayer(false);
+                yield e;
+            }
             default -> throw new IllegalArgumentException("Inimigo desconhecido: " + enemyType);
         };
     }

@@ -19,4 +19,6 @@ public class CharacterDTO {
     private int defense;
     private int speed;
     private double initiativePoints;
+    private boolean hasFireEnchantment;
+    private int fireEnchantmentBonus;
 }

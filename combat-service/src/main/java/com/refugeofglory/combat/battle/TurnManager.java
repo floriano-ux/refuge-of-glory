@@ -28,7 +28,7 @@ public class TurnManager {
     }
 
     public boolean isPlayerTurn() {
-        return getCurrentActor().isPlayer();
+        return getCurrentActor().getPlayer() != null && getCurrentActor().getPlayer();
     }
 
     public int getTurnNumber() {

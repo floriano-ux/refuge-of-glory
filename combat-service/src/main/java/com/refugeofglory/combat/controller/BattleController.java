@@ -31,4 +31,5 @@ public class BattleController {
     public ResponseEntity<BattleSession> getBattle(@PathVariable Long battleId) {
         return ResponseEntity.ok(battleService.getBattle(battleId));
     }
+
 }
