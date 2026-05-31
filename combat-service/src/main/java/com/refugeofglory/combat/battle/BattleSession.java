@@ -15,10 +15,14 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown = true)
 
 @Data
 @Slf4j
+
 public class BattleSession {
+
 
     private Long battleId;
     private BattleState currentState;
@@ -28,6 +32,7 @@ public class BattleSession {
 
     private BattleParticipantDTO player;
     private BattleParticipantDTO enemy;
+
 
     public BattleSession(Long battleId,
                          BattleParticipantDTO player,
@@ -43,6 +48,7 @@ public class BattleSession {
         this.currentState = new PlayerTurnState();
     }
 
+
     public void attach(BattleObserver observer) {
         observers.add(observer);
     }
@@ -54,7 +60,8 @@ public class BattleSession {
     public void executeAction(DamageType damageType) {
         currentState.handleTurn(this);
 
-        if (!turnManager.isPlayerTurn()) return;
+        if (turnManager.getCurrentActor().getPlayer() == null ||
+                !turnManager.getCurrentActor().getPlayer()) return;
 
         DamageStrategy strategy = damageStrategyFactory.getStrategy(damageType);
         int damage = strategy.calculate(
@@ -64,7 +71,7 @@ public class BattleSession {
                 enemy.getDefense()
         );
 
-        if (player.isHasFireEnchantment()) {
+        if (player.getHasFireEnchantment() != null && player.getHasFireEnchantment()) {
             DamageStrategy magicStrategy = damageStrategyFactory.getStrategy(DamageType.MAGIC);
             int fireDamage = magicStrategy.calculate(
                     player.getFireEnchantmentBonus(),

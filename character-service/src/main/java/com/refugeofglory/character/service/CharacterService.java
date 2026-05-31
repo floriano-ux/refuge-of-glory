@@ -7,15 +7,15 @@ import com.refugeofglory.character.factory.EnemyFactory;
 import com.refugeofglory.character.factory.SwordsmanFactory;
 import com.refugeofglory.character.model.dto.CharacterDTO;
 import com.refugeofglory.character.model.enemy.EnemyPrototype;
+import com.refugeofglory.character.model.item.FireEnchantment;
+import com.refugeofglory.character.model.item.HealthPotion;
+import com.refugeofglory.character.model.item.BlessingEnchantment;
+import com.refugeofglory.character.model.item.Item;
 import com.refugeofglory.character.model.player.Character;
+import com.refugeofglory.character.model.player.Inventory;
 import com.refugeofglory.character.repository.CharacterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.refugeofglory.character.model.player.Inventory;
-import com.refugeofglory.character.model.item.HealthPotion;
-import com.refugeofglory.character.model.item.FireEnchantment;
-import com.refugeofglory.character.model.item.BlessingEnchantment;
-import com.refugeofglory.character.model.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +52,14 @@ public class CharacterService {
     }
 
     public CharacterDTO toDTO(Character character) {
+        boolean hasFireEnchantment = character.getInventory().getItems().stream()
+                .anyMatch(i -> i instanceof FireEnchantment);
+
+        int fireBonus = character.getInventory().getItems().stream()
+                .filter(i -> i instanceof FireEnchantment)
+                .mapToInt(i -> ((FireEnchantment) i).getBonusDamage())
+                .sum();
+
         return new CharacterDTO(
                 character.getId(),
                 character.getName(),
@@ -63,7 +71,9 @@ public class CharacterService {
                 character.getAttributes().getMaxDamage(),
                 character.getAttributes().getDefense(),
                 character.getAttributes().getSpeed(),
-                character.getInitiativePoints()
+                character.getInitiativePoints(),
+                hasFireEnchantment,
+                fireBonus
         );
     }
 
@@ -75,18 +85,17 @@ public class CharacterService {
     public List<Character> getCharactersByUser(Long userId) {
         return characterRepository.findByUserId(userId);
     }
+
     public Inventory addItemToInventory(Long characterId, String itemType, int healAmount) {
         Character character = getCharacter(characterId);
-
         HealthPotion potion = new HealthPotion(itemType, healAmount);
-
         if (!character.getInventory().addItem(potion)) {
             throw new RuntimeException("Inventário cheio!");
         }
-
         characterRepository.save(character);
         return character.getInventory();
     }
+
     public Inventory enchantItem(Long characterId, Long itemId, String enchantType, int bonusValue) {
         Character character = getCharacter(characterId);
         Inventory inventory = character.getInventory();
