@@ -60,9 +60,14 @@ public class BattleSession {
     public void executeAction(DamageType damageType) {
         currentState.handleTurn(this);
 
+        // Se é turno do inimigo, executa a ação dele e retorna
         if (turnManager.getCurrentActor().getPlayer() == null ||
-                !turnManager.getCurrentActor().getPlayer()) return;
+                !turnManager.getCurrentActor().getPlayer()) {
+            executeEnemyAction();
+            return;
+        }
 
+        // Turno do jogador — calcula dano
         DamageStrategy strategy = damageStrategyFactory.getStrategy(damageType);
         int damage = strategy.calculate(
                 player.getMinDamage(),
@@ -91,6 +96,8 @@ public class BattleSession {
         if (enemy.isAlive()) {
             turnManager.nextTurn();
             currentState = new EnemyTurnState();
+            // Executa turno do inimigo automaticamente na mesma chamada
+            executeEnemyAction();
         }
     }
 

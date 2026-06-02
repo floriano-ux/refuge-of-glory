@@ -41,6 +41,6 @@ public class LoggingAspect {
     }
 
     public void logAudit(String user, String action) {
-        log.info("📋 Auditoria — usuário: {} executou: {}", user, action);
+        log.info("Auditoria — usuário: {} executou: {}", user, action);
     }
 }
